@@ -4,10 +4,25 @@ __author__ = 'Kostya'
 
 # type names
 SEMICOLON = 'SEMICOLON'
+COMMA = 'COMMA'
+COLON = 'COLON'
 ID = 'ID'
 FOR = 'FOR'
+IF = 'IF'
+ELSE = 'ELSE'
+WHILE = 'WHILE'
+DO = 'DO'
+BINARY = 'BINARY'
+HEXADECIMAL = 'HEXADECIMAL'
+FLOAT = 'FLOAT'
+BREAK = 'BREAK'
+CONTINUE = 'CONTINUE'
+PRINT = 'PRINT'
+READF = 'READF'
+READI = 'READI'
 HCONST = 'HCONST'
 BCONST = 'BCONST'
+FCONST = 'FCONST'
 ASSIGN = 'ASSIGN'
 GREATER = 'GREATER'
 LESS = 'LESS'
@@ -15,16 +30,40 @@ EQUALS = 'EQUALS'
 NOTEQUALS = 'NOTEQUALS'
 GREQUALS = 'GREQUALS'
 LSEQUALS = 'LSEQUALS'
+PLUS = 'PLUS'
+MINUS = 'MINUS'
+MULTIPLY = 'MULTIPLY'
+DIVIDE = 'DIVIDE'
+INR = 'INR'
+DCR = 'DCR'
+LSUM = 'LSUM'
+LMUL = 'LMUL'
+XOR = 'XOR'
 LPAR = 'LPAR'
 RPAR = 'RPAR'
+LBRACE = 'LBRACE'
+RBRACE = 'RBRACE'
+LBRACKET = 'LBRACKET'
+RBRACKET = 'RBRACKET'
+
+
+builtins = (PRINT, READF, READI)
+
+keywords = (FOR, BINARY, HEXADECIMAL, FLOAT, IF, ELSE, WHILE, DO, BREAK, CONTINUE)
 
 # reserved words
-reserved = (FOR,)
+reserved = builtins + keywords
 
 punctuators = (
     SEMICOLON,
+    COMMA,
+    COLON,
     LPAR,
-    RPAR
+    RPAR,
+    LBRACE,
+    RBRACE,
+    LBRACKET,
+    RBRACKET
 )
 
 operators = (
@@ -34,7 +73,16 @@ operators = (
     EQUALS,
     NOTEQUALS,
     GREQUALS,
-    LSEQUALS
+    LSEQUALS,
+    INR,
+    DCR,
+    PLUS,
+    MINUS,
+    MULTIPLY,
+    DIVIDE,
+    LSUM,
+    LMUL,
+    XOR
 )
 
 ids = (
@@ -43,7 +91,8 @@ ids = (
 
 constants = (
     HCONST,
-    BCONST
+    BCONST,
+    FCONST
 )
 
 tokens = reserved + punctuators + operators + ids + constants
@@ -56,12 +105,30 @@ def t_NEWLINE(t):
     t.lexer.lineno += t.value.count('\n')
 
 
+t_COMMA = r','
 t_SEMICOLON = r';'
+t_COLON = r':'
 t_ASSIGN = r':='
 t_LPAR = r'\('
 t_RPAR = r'\)'
-t_HCONST = r'-?0x[0-9a-fA-F]+'
+t_LBRACE = r'{'
+t_RBRACE = r'}'
+t_LBRACKET = r'\['
+t_RBRACKET = r'\]'
+t_HCONST = r'0x[0-9a-fA-F]+'
 t_BCONST = r'0(B|b)[01]+'
+t_FCONST = r'[0-9]*\.[0-9]+'
+
+#arithmetic operations
+t_MINUS = r'-'
+t_PLUS = r'\+'
+t_MULTIPLY = r'\*'
+t_DIVIDE = r'/'
+t_INR = r'\+\+'
+t_DCR = r'--'
+t_LSUM = r'\|'
+t_LMUL = r'&'
+t_XOR = r'\^'
 
 # comparison operators
 t_GREATER = r'>'
